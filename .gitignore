@@ -1,0 +1,46 @@
+# Build artifacts
+*.o
+password_manager
+
+# Vault files (never commit these!)
+*.dat
+vault.dat
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Backup files
+*.bak
+*~
+*.backup
+*_backup_*
+
+# Debug files
+core
+*.dSYM/
+
+# Test artifacts
+*.log
+*.test
+
+# Dependencies
+/vendor/
+/build/
+
+# Environment files
+.env
+.env.local
+
+# Temporary files
+*.tmp
+.temp/
+tmp/ 
