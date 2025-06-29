@@ -3,14 +3,10 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -O2 -DAES_BLOCK_SIZE=16
 LDFLAGS = -lssl -lcrypto -lpthread
 
-# Detect OS and set OpenSSL paths
-UNAME_S := $(shell uname -s)
-ifeq ($(UNAME_S),Darwin)
-    # macOS - use Homebrew OpenSSL
-    OPENSSL_PREFIX = $(shell brew --prefix openssl 2>/dev/null || echo /usr/local/opt/openssl)
-    CXXFLAGS += -I$(OPENSSL_PREFIX)/include
-    LDFLAGS += -L$(OPENSSL_PREFIX)/lib
-endif
+# Installation paths
+PREFIX = /usr/local
+BINDIR = $(PREFIX)/bin
+DOCDIR = $(PREFIX)/share/doc/secure-password-manager
 
 # Source files
 SOURCES = main.cpp crypto.cpp vault.cpp
@@ -23,11 +19,20 @@ all: $(TARGET)
 # Build the main executable
 $(TARGET): $(OBJECTS)
 	$(CXX) $(OBJECTS) -o $(TARGET) $(LDFLAGS)
-	@echo "✅ Build complete! Run './$(TARGET)' to start the password manager."
+	@echo "✅ Build complete!"
 
 # Compile source files
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Install the program
+install: $(TARGET)
+	install -d $(DESTDIR)$(BINDIR)
+	install -d $(DESTDIR)$(DOCDIR)
+	install -m 755 $(TARGET) $(DESTDIR)$(BINDIR)/secure-password-manager
+	install -m 644 README.md $(DESTDIR)$(DOCDIR)/
+	install -m 644 LICENSE $(DESTDIR)$(DOCDIR)/
+	install -m 644 demo.md $(DESTDIR)$(DOCDIR)/
 
 # Clean build artifacts
 clean:
@@ -104,4 +109,4 @@ help:
 	@echo "  backup           - Create a backup archive"
 	@echo "  help             - Show this help message"
 
-.PHONY: all clean debug release run install-deps-mac install-deps-ubuntu install-deps-centos memcheck security-check test-build backup help 
+.PHONY: all clean debug release run install install-deps-mac install-deps-ubuntu install-deps-centos memcheck security-check test-build backup help 

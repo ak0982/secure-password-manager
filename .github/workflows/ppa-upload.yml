@@ -14,15 +14,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up environment
-        run: |
-          mkdir -p debian/source
-          mkdir -p build-area
-
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y devscripts debhelper build-essential libssl-dev dput gnupg2
+          sudo apt-get install -y devscripts debhelper build-essential libssl-dev dput gnupg2 pkg-config
 
       - name: Import GPG key
         env:
@@ -43,21 +38,19 @@ jobs:
 
       - name: Build source package
         run: |
-          # Print working directory and contents
+          # Print directory contents
           pwd
-          ls -la ..
+          ls -la
+          ls -la debian/
           
-          # Create source package without running lintian
-          DEB_BUILD_OPTIONS=nocheck debuild -S -sa -k16C2C3B5B97BD1F946C3FADE2EC89133D0ED9AD8
+          # Build the source package
+          debuild -S -sa -k16C2C3B5B97BD1F946C3FADE2EC89133D0ED9AD8
         env:
           DEBEMAIL: "amar.edu09@gmail.com"
           DEBFULLNAME: "Amar Kumar"
 
       - name: Upload to PPA
         run: |
-          # Configure dput
-          echo "allow_unsigned_uploads = yes" >> ~/.dput.cf
-          
           # Show files in parent directory
           ls -la ..
           

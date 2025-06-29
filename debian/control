@@ -1,0 +1,26 @@
+Source: secure-password-manager
+Section: utils
+Priority: optional
+Maintainer: Amar Kumar <amar.edu09@gmail.com>
+Build-Depends: debhelper-compat (= 13),
+               libssl-dev,
+               pkg-config
+Standards-Version: 4.6.0
+Homepage: https://github.com/ak0982/secure-password-manager
+Rules-Requires-Root: no
+
+Package: secure-password-manager
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         libssl3
+Description: Secure CLI Password Manager
+ A command-line password manager with AES-256 encryption.
+ .
+ Features:
+  * AES-256-CBC encryption for all stored data
+  * PBKDF2 key derivation with 100,000 iterations
+  * Auto-lock after inactivity
+  * Password generation
+  * Clipboard integration
+  * Cross-platform support 
