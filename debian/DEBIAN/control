@@ -1,0 +1,18 @@
+Package: secure-password-manager
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Essential: no
+Installed-Size: 2048
+Maintainer: Amar Kumar <amar.edu09@gmail.com>
+Description: Secure CLI Password Manager
+ A command-line password manager with AES-256 encryption.
+ Features include:
+  * AES-256-CBC encryption for all stored data
+  * PBKDF2 key derivation with 100,000 iterations
+  * Auto-lock after inactivity
+  * Password generation
+  * Clipboard integration
+Homepage: https://github.com/ak0982/secure-password-manager
+Depends: libc6 (>= 2.15), libssl3 (>= 3.0.0) 

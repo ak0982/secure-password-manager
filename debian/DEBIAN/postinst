@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+# Create necessary directories
+mkdir -p /usr/local/share/secure-password-manager
+
+# Set permissions
+chmod 755 /usr/local/bin/password_manager
+chmod 755 /usr/local/share/secure-password-manager
+
+# Create symlink
+ln -sf /usr/local/bin/password_manager /usr/bin/secure-password-manager
+
+# Update command database
+if [ -x "$(command -v update-command-not-found)" ]; then
+    update-command-not-found
+fi
+
+exit 0 

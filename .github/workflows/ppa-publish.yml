@@ -1,0 +1,34 @@
+name: Publish to Launchpad PPA
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y devscripts dput debhelper build-essential libssl-dev gnupg
+
+      - name: Import GPG key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --import --batch
+          gpg --list-secret-keys
+
+      - name: Build source package
+        run: |
+          debuild -S -sa -k${{ secrets.GPG_KEY_ID }}
+
+      - name: Upload to PPA
+        env:
+          LAUNCHPAD_USERNAME: ${{ secrets.LAUNCHPAD_USERNAME }}
+        run: |
+          dput ppa:$LAUNCHPAD_USERNAME/secure-password-manager ../secure-password-manager_1.0.0-1_source.changes 

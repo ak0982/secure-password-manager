@@ -1,0 +1,33 @@
+name: Upload to PPA
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y devscripts debhelper build-essential libssl-dev dput
+
+      - name: Import GPG key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --import --batch
+          gpg --list-secret-keys
+
+      - name: Build source package
+        run: |
+          ./build_source_package.sh
+
+      - name: Upload to PPA
+        run: |
+          dput ppa:ak0983/secure-password-manager ../secure-password-manager_1.0.0-1ubuntu1_source.changes 

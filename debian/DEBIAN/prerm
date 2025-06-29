@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+
+# Remove symlink
+rm -f /usr/bin/secure-password-manager
+
+# Update command database
+if [ -x "$(command -v update-command-not-found)" ]; then
+    update-command-not-found
+fi
+
+exit 0 

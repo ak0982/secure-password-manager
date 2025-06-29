@@ -255,6 +255,6 @@ This software is provided "as is" without warranty. While designed with security
 
 ---
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by [Amar Kumar](mailto:amar.edu09@gmail.com)
 
 Remember: Security is a journey, not a destination. Keep your software updated! 

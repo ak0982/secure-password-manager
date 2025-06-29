@@ -1,0 +1,12 @@
+secure-password-manager (1.0.0-1ubuntu1) jammy; urgency=medium
+
+  * Initial release for Ubuntu
+  * Features:
+    - AES-256-CBC encryption for password storage
+    - PBKDF2 key derivation with 100,000 iterations
+    - Auto-lock after inactivity
+    - Password generation
+    - Clipboard integration
+    - Cross-platform support
+
+ -- Amar Kumar <amar.edu09@gmail.com>  $(date -R) 

@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	$(MAKE) release
+
+override_dh_auto_install:
+	install -D -m 755 password_manager debian/secure-password-manager/usr/bin/secure-password-manager
+	install -D -m 644 README.md debian/secure-password-manager/usr/share/doc/secure-password-manager/README.md
+	install -D -m 644 LICENSE debian/secure-password-manager/usr/share/doc/secure-password-manager/LICENSE
+	install -D -m 644 demo.md debian/secure-password-manager/usr/share/doc/secure-password-manager/demo.md
+
+override_dh_auto_clean:
+	$(MAKE) clean 
