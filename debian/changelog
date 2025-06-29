@@ -9,4 +9,4 @@ secure-password-manager (1.0.0-1ubuntu1) jammy; urgency=medium
     - Clipboard integration
     - Cross-platform support
 
- -- Amar Kumar <amar.edu09@gmail.com>  $(date -R) 
+ -- Amar Kumar <amar.edu09@gmail.com>  Thu, 29 Jun 2023 05:22:00 +0000 

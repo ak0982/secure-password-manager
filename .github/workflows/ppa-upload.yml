@@ -36,20 +36,16 @@ jobs:
           git config --global user.name "Amar Kumar"
           git config --global user.email "amar.edu09@gmail.com"
 
-      - name: Prepare package files
+      - name: Create orig tarball
         run: |
-          # Ensure all files are in place
-          ls -la
-          echo "Creating necessary directories..."
-          mkdir -p debian/source
-          echo "Checking debian directory contents..."
-          ls -la debian/
+          VERSION=$(dpkg-parsechangelog -S Version | sed 's/-.*$//')
+          git archive --format=tar.gz --prefix=secure-password-manager-${VERSION}/ HEAD -o ../secure-password-manager_${VERSION}.orig.tar.gz
 
       - name: Build source package
         run: |
           # Print working directory and contents
           pwd
-          ls -la
+          ls -la ..
           
           # Create source package
           debuild -S -sa -k16C2C3B5B97BD1F946C3FADE2EC89133D0ED9AD8 --no-lintian
