@@ -47,8 +47,8 @@ jobs:
           pwd
           ls -la ..
           
-          # Create source package
-          debuild -S -sa -k16C2C3B5B97BD1F946C3FADE2EC89133D0ED9AD8 --no-lintian
+          # Create source package without running lintian
+          DEB_BUILD_OPTIONS=nocheck debuild -S -sa -k16C2C3B5B97BD1F946C3FADE2EC89133D0ED9AD8
         env:
           DEBEMAIL: "amar.edu09@gmail.com"
           DEBFULLNAME: "Amar Kumar"
