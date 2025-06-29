@@ -11,23 +11,61 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up environment
+        run: |
+          mkdir -p debian/source
+          mkdir -p build-area
 
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y devscripts debhelper build-essential libssl-dev dput
+          sudo apt-get install -y devscripts debhelper build-essential libssl-dev dput gnupg2
 
       - name: Import GPG key
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
         run: |
-          echo "$GPG_PRIVATE_KEY" | gpg --import --batch
-          gpg --list-secret-keys
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          gpg --list-secret-keys --keyid-format LONG
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "Amar Kumar"
+          git config --global user.email "amar.edu09@gmail.com"
+
+      - name: Prepare package files
+        run: |
+          # Ensure all files are in place
+          ls -la
+          echo "Creating necessary directories..."
+          mkdir -p debian/source
+          echo "Checking debian directory contents..."
+          ls -la debian/
 
       - name: Build source package
         run: |
-          ./build_source_package.sh
+          # Print working directory and contents
+          pwd
+          ls -la
+          
+          # Create source package
+          debuild -S -sa -k16C2C3B5B97BD1F946C3FADE2EC89133D0ED9AD8 --no-lintian
+        env:
+          DEBEMAIL: "amar.edu09@gmail.com"
+          DEBFULLNAME: "Amar Kumar"
 
       - name: Upload to PPA
         run: |
-          dput ppa:ak0983/secure-password-manager ../secure-password-manager_1.0.0-1ubuntu1_source.changes 
+          # Configure dput
+          echo "allow_unsigned_uploads = yes" >> ~/.dput.cf
+          
+          # Show files in parent directory
+          ls -la ..
+          
+          # Upload to PPA
+          dput ppa:ak0983/secure-password-manager ../secure-password-manager_*.changes
+        env:
+          DPUT_REMOTE_KEY: ${{ secrets.GPG_PRIVATE_KEY }} 
