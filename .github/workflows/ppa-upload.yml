@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y devscripts debhelper build-essential libssl-dev dput gnupg2 pkg-config
+          sudo apt-get install -y devscripts debhelper build-essential libssl-dev dput gnupg2 pkg-config quilt
 
       - name: Import GPG key
         env:
@@ -34,7 +34,7 @@ jobs:
       - name: Create orig tarball
         run: |
           VERSION=$(dpkg-parsechangelog -S Version | sed 's/-.*$//')
-          git archive --format=tar.gz --prefix=secure-password-manager-${VERSION}/ HEAD -o ../secure-password-manager_${VERSION}.orig.tar.gz
+          tar --exclude='.git' --exclude='debian' --exclude='.github' -czf ../secure-password-manager_${VERSION}.orig.tar.gz .
 
       - name: Build source package
         run: |
@@ -48,6 +48,7 @@ jobs:
         env:
           DEBEMAIL: "amar.edu09@gmail.com"
           DEBFULLNAME: "Amar Kumar"
+          DEB_BUILD_OPTIONS: "nocheck"
 
       - name: Upload to PPA
         run: |

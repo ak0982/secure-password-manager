@@ -1,4 +1,4 @@
-secure-password-manager (1.0.0-1ubuntu1) jammy; urgency=medium
+secure-password-manager (1.0.0-0ubuntu1) jammy; urgency=medium
 
   * Initial release for Ubuntu
   * Features:
